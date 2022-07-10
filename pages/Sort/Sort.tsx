@@ -52,30 +52,30 @@ export function Sort() {
 
   const data = [];
   data.push({ name: "david", key: 1 });
-  data.push({ name: "roy", key: 1 });
-  data.push({ name: "mike", key: 1 });
-  data.push({ name: "john", key: 1 });
-  data.push({ name: "daniel", key: 1 });
-  data.push({ name: "david", key: 1 });
-  data.push({ name: "roy", key: 1 });
-  data.push({ name: "mike", key: 1 });
-  data.push({ name: "john", key: 1 });
-  data.push({ name: "daniel", key: 1 });
-  data.push({ name: "david", key: 1 });
-  data.push({ name: "roy", key: 1 });
-  data.push({ name: "mike", key: 1 });
-  data.push({ name: "john", key: 1 });
-  data.push({ name: "daniel", key: 1 });
-  data.push({ name: "david", key: 1 });
-  data.push({ name: "roy", key: 1 });
-  data.push({ name: "mike", key: 1 });
-  data.push({ name: "john", key: 1 });
-  data.push({ name: "daniel", key: 1 });
-  data.push({ name: "david", key: 1 });
-  data.push({ name: "roy", key: 1 });
-  data.push({ name: "mike", key: 1 });
-  data.push({ name: "john", key: 1 });
-  data.push({ name: "daniel", key: 1 });
+  data.push({ name: "roy", key: 2 });
+  data.push({ name: "mike", key: 3 });
+  data.push({ name: "john", key: 4 });
+  data.push({ name: "daniel", key: 32});
+  data.push({ name: "david", key: 5 });
+  data.push({ name: "roy", key: 6 });
+  data.push({ name: "mike", key: 7 });
+  data.push({ name: "john", key: 8 });
+  data.push({ name: "daniel", key: 9 });
+  data.push({ name: "david", key: 10 });
+  data.push({ name: "roy", key: 11 });
+  data.push({ name: "mike", key: 12 });
+  data.push({ name: "john", key: 13 });
+  data.push({ name: "daniel", key: 14 });
+  data.push({ name: "david", key: 15 });
+  data.push({ name: "roy", key: 16 });
+  data.push({ name: "mike", key: 17 });
+  data.push({ name: "john", key: 18 });
+  data.push({ name: "daniel", key: 19 });
+  data.push({ name: "david", key: 20 });
+  data.push({ name: "roy", key: 21 });
+  data.push({ name: "mike", key: 22 });
+  data.push({ name: "john", key: 23 });
+  data.push({ name: "daniel", key: 24 });
 
   return (
     <View {...panResponder.panHandlers} style={styles.container}>
@@ -109,10 +109,12 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
     textAlign: "center",
     padding: 24,
+    userSelect: "none",
   },
   moving: {
     backgroundColor: "pink",
     textAlign: "center",
+    userSelect: "none",
     padding: 24,
     width: "100%",
     zIndex: 2,
