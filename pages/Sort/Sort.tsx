@@ -7,12 +7,12 @@ import {
   PanResponder,
   Animated,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef,useMemo } from "react";
 
 export function Sort() {
-  let point = new Animated.ValueXY();
+  const point = React.useRef(new Animated.ValueXY());
 
-  const panResponder = useRef(
+  const panResponder = useMemo(() => 
     PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -29,7 +29,7 @@ export function Sort() {
         console.log(gestureState);
         console.log("move event");
 
-        Animated.event([{ y: point.y }], { useNativeDriver: false })({
+        Animated.event([{ y: point.current.y }], { useNativeDriver: false })({
           y: gestureState.moveY,
         });
       },
@@ -48,7 +48,7 @@ export function Sort() {
         return true;
       },
     })
-  ).current;
+  , []);
 
   const data = [];
   data.push({ name: "david", key: 1 });
@@ -79,7 +79,7 @@ export function Sort() {
 
   return (
     <View {...panResponder.panHandlers} style={styles.container}>
-      <Animated.View style={[styles.moving, { top: point.getLayout().top }]}>
+      <Animated.View style={[styles.moving, { top: point.current.getLayout().top }]}>
         <Text>Hello world</Text>
       </Animated.View>
       <FlatList
