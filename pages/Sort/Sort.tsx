@@ -7,13 +7,16 @@ import {
   PanResponder,
   Button,
   Animated,
+  SafeAreaView,
 } from "react-native";
-import React, { useRef,useMemo } from "react";
+import React, { useRef,useMemo, useState } from "react";
 import styles from "./Style.js";
 
 
 export function Sort() {
   const point = React.useRef(new Animated.ValueXY());
+
+  const [itemMoving, setItemMoving] = React.useState(5);
 
   const flatlist = useRef<FlatList>(null);
 
@@ -33,6 +36,8 @@ export function Sort() {
       onPanResponderMove: (evt, gestureState) => {
         console.log(gestureState);
         console.log("move event");
+        
+     //   setItemMoving(7);
 
      //   flatlist.current?.scrollToEnd();
 
@@ -58,7 +63,7 @@ export function Sort() {
   , []);
 
   const data = [];
-  data.push({ name: "david", key: 1 });
+  data.push({ name: "davi22d", key: 1 });
   data.push({ name: "roy", key: 2 });
   data.push({ name: "mike", key: 3 });
   data.push({ name: "john", key: 4 });
@@ -85,22 +90,22 @@ export function Sort() {
   data.push({ name: "daniel", key: 24 });
 
   return (
-    <View {...panResponder.panHandlers} style={styles.container}>
+    <SafeAreaView style={styles.container}>
        
-      <Animated.View style={[styles.moving, { top: point.current.getLayout().top }]}>
-        <Text>Hello world</Text>
-      </Animated.View>
+
       <FlatList
         ref={flatlist}
         style={styles.list}
         data={data}
         renderItem={({ item }) => (
-          <View style={styles.row}>
-            <Text>{item.name}</Text>
+          <View {...item.key == itemMoving && {...panResponder.panHandlers}}>
+               <Animated.View style={[item.key == itemMoving && { top: point.current.y },item.key == itemMoving && styles.moving,item.key != itemMoving && styles.standing]}>
+        <Text>{item.name}</Text>
+      </Animated.View>
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -10,19 +10,30 @@ export default StyleSheet.create({
   list: {
     width: "100%",
     height:1,
+  
   },
   row: {
     backgroundColor: "orange",
     textAlign: "center",
     padding: 24,
     userSelect: "none",
+    zIndex: 1,
   },
   moving: {
-    backgroundColor: "pink",
-    textAlign: "center",
-    userSelect: "none",
-    padding: 24,
-    width: "100%",
+    width:"100%",
     zIndex: 2,
+    backgroundColor:"pink",
+    userSelect:"none",
+    textAlign:"center",
+    padding:12,
   },
+  standing:{
+    width:"100%",
+    userSelect:"none",
+    textAlign:"center",
+    padding:12,
+   
+
+  }
+
 });
