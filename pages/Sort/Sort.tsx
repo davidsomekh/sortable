@@ -5,12 +5,17 @@ import {
   Text,
   View,
   PanResponder,
+  Button,
   Animated,
 } from "react-native";
 import React, { useRef,useMemo } from "react";
+import styles from "./Style.js";
+
 
 export function Sort() {
   const point = React.useRef(new Animated.ValueXY());
+
+  const flatlist = useRef<FlatList>(null);
 
   const panResponder = useMemo(() => 
     PanResponder.create({
@@ -28,6 +33,8 @@ export function Sort() {
       onPanResponderMove: (evt, gestureState) => {
         console.log(gestureState);
         console.log("move event");
+
+     //   flatlist.current?.scrollToEnd();
 
         Animated.event([{ y: point.current.y }], { useNativeDriver: false })({
           y: gestureState.moveY,
@@ -79,10 +86,12 @@ export function Sort() {
 
   return (
     <View {...panResponder.panHandlers} style={styles.container}>
+       
       <Animated.View style={[styles.moving, { top: point.current.getLayout().top }]}>
         <Text>Hello world</Text>
       </Animated.View>
       <FlatList
+        ref={flatlist}
         style={styles.list}
         data={data}
         renderItem={({ item }) => (
@@ -95,28 +104,3 @@ export function Sort() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  list: {
-    width: "100%",
-  },
-  row: {
-    backgroundColor: "orange",
-    textAlign: "center",
-    padding: 24,
-    userSelect: "none",
-  },
-  moving: {
-    backgroundColor: "pink",
-    textAlign: "center",
-    userSelect: "none",
-    padding: 24,
-    width: "100%",
-    zIndex: 2,
-  },
-});
