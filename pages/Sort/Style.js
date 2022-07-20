@@ -12,23 +12,22 @@ export default StyleSheet.create({
     height:1,
   
   },
-  row: {
-    backgroundColor: "orange",
-    textAlign: "center",
-    padding: 24,
-    userSelect: "none",
-    zIndex: 1,
+ 
+  draggedText:{
+    color:'white',
   },
-  moving: {
+  
+  dragged:{
     width:"100%",
-    zIndex: 2,
-    backgroundColor:"pink",
     userSelect:"none",
     textAlign:"center",
     padding:12,
+    cursor:"pointer",
+
   },
   standing:{
     width:"100%",
+    cursor:"pointer",
     userSelect:"none",
     textAlign:"center",
     padding:12,

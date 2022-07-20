@@ -15,9 +15,7 @@ import styles from "./Style.js";
 
 export function Sort() {
   const point = React.useRef(new Animated.ValueXY());
-
-  const [itemMoving, setItemMoving] = React.useState(5);
-
+  const [dragging,setDraging] = useState(false);
   const flatlist = useRef<FlatList>(null);
 
   const panResponder = useMemo(() => 
@@ -34,21 +32,24 @@ export function Sort() {
         // gestureState.d{x,y} will be set to zero now
       },
       onPanResponderMove: (evt, gestureState) => {
-        console.log(gestureState);
+        console.log(gestureState.moveY);
         console.log("move event");
+
+          setDraging(true);
         
      //   setItemMoving(7);
 
      //   flatlist.current?.scrollToEnd();
 
         Animated.event([{ y: point.current.y }], { useNativeDriver: false })({
-          y: gestureState.moveY,
+          y: gestureState.moveY - 15,
         });
       },
       onPanResponderTerminationRequest: (evt, gestureState) => false,
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
+        setDraging(false);
       },
       onPanResponderTerminate: (evt, gestureState) => {
         // Another component has become the responder, so this gesture
@@ -89,19 +90,45 @@ export function Sort() {
   data.push({ name: "john", key: 23 });
   data.push({ name: "daniel", key: 24 });
 
+  const renderDrag = () => (
+    
+
+    <View
+      style={styles.dragged}
+    >
+     
+      <Text style={styles.draggedText}>
+        i am moving
+      </Text>
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
+
        
+
+        <Animated.View
+          style={{
+            backgroundColor: "black",
+            zIndex: 2,
+            width: "100%",
+            
+            top: point.current.getLayout().top,
+          }}
+        >
+          {dragging && renderDrag()}
+        </Animated.View>
 
       <FlatList
         ref={flatlist}
         style={styles.list}
         data={data}
         renderItem={({ item }) => (
-          <View {...item.key == itemMoving && {...panResponder.panHandlers}}>
-               <Animated.View style={[item.key == itemMoving && { top: point.current.y },item.key == itemMoving && styles.moving,item.key != itemMoving && styles.standing]}>
+          <View {...panResponder.panHandlers}>
+               <View style={styles.standing}>
         <Text>{item.name}</Text>
-      </Animated.View>
+      </View>
           </View>
         )}
       />
