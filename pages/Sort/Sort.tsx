@@ -63,7 +63,7 @@ export function Sort() {
     })
   , []);
 
-  const data = [];
+  const data : {}[]= [];
   data.push({ name: "davi22d", key: 1 });
   data.push({ name: "roy", key: 2 });
   data.push({ name: "mike", key: 3 });
@@ -121,6 +121,7 @@ export function Sort() {
         </Animated.View>
 
       <FlatList
+        scrollEnabled={!dragging}
         ref={flatlist}
         style={styles.list}
         data={data}
@@ -135,4 +136,3 @@ export function Sort() {
     </SafeAreaView>
   );
 }
-
