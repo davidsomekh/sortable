@@ -1,23 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  main: {
+    padding: 6,
+    color:"white",
   },
-  list: {
-    width: "100%",
-    height:1,
-  
-  },
- 
-  draggedText:{
-    color:'white',
-  },
-  
-  dragged:{
+  hover: {
     width:"100%",
     cursor:"pointer",
     userSelect:"none",
@@ -25,8 +13,16 @@ export default StyleSheet.create({
     padding:12,
     backgroundColor:'#121432',
     color:"white",
-
   },
- 
-
+  active:{
+    borderLeftWidth:3,
+    borderLeftColor:"pink",
+  },
+  notHover:{
+    width:"100%",
+    cursor:"pointer",
+    userSelect:"none",
+    textAlign:"center",
+    padding:12,
+  }
 });

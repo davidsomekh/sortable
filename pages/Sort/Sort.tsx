@@ -12,6 +12,11 @@ import {
 import React, { useRef, useMemo, useState } from "react";
 import styles from "./Style.js";
 
+import {isApple} from "../../Shared/GetPlatform";
+import {isAndroid} from "../../Shared/GetPlatform";
+
+import { TaskRow } from "../../Components/TaskRow/TaskRow";
+
 export function Sort() {
   const point = React.useRef(new Animated.ValueXY());
   const [dragging, setDraging] = useState(false);
@@ -20,6 +25,16 @@ export function Sort() {
 
   let stillPressing = false;
   let longPress = false;
+  
+
+  const getLongPressDelay = () =>{
+    if(isApple())
+      return 500;
+    else if(isAndroid())
+      return 300;
+      
+    return 150;
+  }
 
   const panResponder = useMemo(
     () =>
@@ -37,7 +52,7 @@ export function Sort() {
             if (stillPressing) {
               longPress = true;
             }
-          }, 150);
+          }, getLongPressDelay());
 
           // The gesture has started. Show visual feedback so the user knows
           // what is happening!
@@ -102,9 +117,7 @@ export function Sort() {
   data.push({ name: "daniel", key: 24 });
 
   const renderDrag = () => (
-    <View style={styles.dragged}>
-      <Text style={styles.draggedText}>i am moving</Text>
-    </View>
+    <TaskRow name="moving" />
   );
 
   return (
@@ -128,9 +141,7 @@ export function Sort() {
         data={data}
         renderItem={({ item }) => (
           <View {...panResponder.panHandlers}>
-            <View style={styles.standing}>
-              <Text>{item.name}</Text>
-            </View>
+            <TaskRow name={item.name} />
           </View>
         )}
       />
