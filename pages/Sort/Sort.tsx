@@ -97,6 +97,10 @@ export function Sort() {
     []
   );
 
+  const hideTaskPage = ()=>{
+    setShowTask(false);
+  }
+
   const onTask = (taskname:string)=>{
     setActiveTask(taskname);
     setShowTask(true);
@@ -136,7 +140,7 @@ export function Sort() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {showTask && <TaskPage name={activeTask}/>}
+      {showTask && <TaskPage close={hideTaskPage} name={activeTask}/>}
       <Animated.View
         style={{
           zIndex: 2,
