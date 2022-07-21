@@ -9,19 +9,39 @@ export function TaskRow(props) {
   const ref = useRef(null);
   const isHovered = useHover(ref);
 
-  console.log(props);
+  const moving = props.moving;
+
+  const onTask = ()=>{
+    props.onClick(props.name);
+  }
 
   return (
     <>
-      <TouchableOpacity
-        style={[props.active && styles.active, styles.main]}
-        ref={ref}
-        onPress={props.onClick}
-      >
-        <View>
-          <Text style={[isHovered && styles.hover,!isHovered && styles.notHover]}>{props.name}</Text>
+      {!moving && 
+        <TouchableOpacity
+        delayPressIn={10000}      
+          style={[props.active && styles.active, styles.main]}
+          ref={ref}
+          onPress={onTask}
+        >
+          <View>
+            <Text
+              style={[
+                moving && styles.moving,
+                !moving && isHovered && styles.hover,
+                !isHovered && styles.notHover,
+              ]}
+            >
+              {props.name}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      }
+      {moving && 
+        <View style={styles.moving}>
+          <Text style={styles.textMoving}>{props.name}</Text>
         </View>
-      </TouchableOpacity>
+      }
     </>
   );
 }

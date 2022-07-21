@@ -12,14 +12,22 @@ import {
 import React, { useRef, useMemo, useState } from "react";
 import styles from "./Style.js";
 
+
+
+
 import {isApple} from "../../Shared/GetPlatform";
 import {isAndroid} from "../../Shared/GetPlatform";
+import {isWeb} from "../../Shared/GetPlatform";
 
 import { TaskRow } from "../../Components/TaskRow/TaskRow";
+import { TaskPage } from "../../Components/TaskPage/TaskPage";
 
 export function Sort() {
   const point = React.useRef(new Animated.ValueXY());
   const [dragging, setDraging] = useState(false);
+
+  const [activeTask,setActiveTask] = useState("");
+  const [showTask,setShowTask] = useState(false);
 
   const flatlist = useRef<FlatList>(null);
 
@@ -40,8 +48,8 @@ export function Sort() {
     () =>
       PanResponder.create({
         // Ask to be the responder:
-        onStartShouldSetPanResponder: (evt, gestureState) => true,
-        onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+        onStartShouldSetPanResponder: (evt, gestureState) => false,
+        onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
         onMoveShouldSetPanResponder: (evt, gestureState) => true,
         onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
@@ -89,8 +97,14 @@ export function Sort() {
     []
   );
 
+  const onTask = (taskname:string)=>{
+    setActiveTask(taskname);
+    setShowTask(true);
+    console.log('task clicked: ' + taskname);
+  }
+
   const data: {}[] = [];
-  data.push({ name: "davi22d", key: 1 });
+  data.push({ name: "dss", key: 1 });
   data.push({ name: "roy", key: 2 });
   data.push({ name: "mike", key: 3 });
   data.push({ name: "john", key: 4 });
@@ -117,31 +131,32 @@ export function Sort() {
   data.push({ name: "daniel", key: 24 });
 
   const renderDrag = () => (
-    <TaskRow name="moving" />
+    <TaskRow moving={true} name="john" />
   );
 
   return (
     <SafeAreaView style={styles.container}>
+      {showTask && <TaskPage name={activeTask}/>}
       <Animated.View
         style={{
-          backgroundColor: "black",
           zIndex: 2,
           width: "100%",
 
           top: point.current.getLayout().top,
         }}
       >
+     
         {dragging && renderDrag()}
       </Animated.View>
 
       <FlatList
-        scrollEnabled={!dragging}
+        scrollEnabled={isWeb() || !dragging}
         ref={flatlist}
         style={styles.list}
         data={data}
         renderItem={({ item }) => (
           <View {...panResponder.panHandlers}>
-            <TaskRow name={item.name} />
+            <TaskRow onClick={onTask} name={item.name} />
           </View>
         )}
       />

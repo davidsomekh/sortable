@@ -13,6 +13,21 @@ export default StyleSheet.create({
     padding:12,
     backgroundColor:'#121432',
     color:"white",
+
+    
+  },
+  textMoving:{
+    color:"white",
+  },
+  moving:{
+    position:"absolute",
+    width:"100%",
+    cursor:"pointer",
+    userSelect:"none",
+    textAlign:"center",
+    padding:12,
+    backgroundColor:'#121432',
+    color:"white",
   },
   active:{
     borderLeftWidth:3,
@@ -23,6 +38,6 @@ export default StyleSheet.create({
     cursor:"pointer",
     userSelect:"none",
     textAlign:"center",
-    padding:12,
+    padding:12
   }
 });
