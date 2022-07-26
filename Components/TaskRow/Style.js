@@ -18,9 +18,10 @@ export default StyleSheet.create({
   },
   textMoving:{
     color:"white",
+
   },
   moving:{
-    position:"absolute",
+    
     width:"100%",
     cursor:"pointer",
     userSelect:"none",

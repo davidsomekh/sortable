@@ -145,7 +145,7 @@ export function Sort() {
         style={{
           zIndex: 2,
           width: "100%",
-
+          position:"absolute",
           top: point.current.getLayout().top,
         }}
       >
