@@ -2,20 +2,17 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     page:{
-        height:"100%",
-        width:"100%",
-        position:"fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor:"gray",
-        textAlign:"center",
-        justifyContent:"center",
-        alignItems:"center",
-
-   
-   
+      height:"100%",
+      width:"100%",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor:"gray",
+      textAlign:"center",
+      justifyContent:"center",
+      alignItems:"center",
+      position:"absolute",
       },
       center:{
         
@@ -31,7 +28,7 @@ export default StyleSheet.create({
       },
       txt:{
         zIndex: 1,
-        backgroundColor:"white",
+      
 
       }
 });
