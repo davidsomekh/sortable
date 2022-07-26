@@ -21,14 +21,14 @@ export default StyleSheet.create({
 
   },
   moving:{
-    
+    alignItems:"center",
     width:"100%",
     cursor:"pointer",
     userSelect:"none",
     textAlign:"center",
     padding:12,
     backgroundColor:'#121432',
-    color:"white",
+  
   },
   active:{
     borderLeftWidth:3,
