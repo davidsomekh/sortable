@@ -3,6 +3,7 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  Vibration,
   View,
   PanResponder,
   Button,
@@ -33,13 +34,26 @@ export function Sort() {
 
   let stillPressing = false;
   let longPress = false;
+
+  const ONE_SECOND_IN_MS = 1000;
+
+  const PATTERN = [
+    1 * ONE_SECOND_IN_MS,
+    2 * ONE_SECOND_IN_MS,
+    3 * ONE_SECOND_IN_MS
+  ];
+
+  const PATTERN_DESC =
+    isAndroid()
+      ? "wait 1s, vibrate 2s, wait 3s"
+      : "wait 1s, vibrate, wait 2s, vibrate, wait 3s";
   
 
   const getLongPressDelay = () =>{
     if(isApple())
       return 500;
     else if(isAndroid())
-      return 300;
+      return 1000;
       
     return 150;
   }
@@ -56,8 +70,14 @@ export function Sort() {
         onPanResponderGrant: (evt, gestureState) => {
           stillPressing = true;
 
+         // Vibration.vibrate(20);
+
           setTimeout(function () {
             if (stillPressing) {
+              //if(isAndroid())
+               // setDraging(true);
+               Vibration.vibrate(20);
+
               longPress = true;
             }
           }, getLongPressDelay());
@@ -85,8 +105,9 @@ export function Sort() {
           setDraging(false);
         },
         onPanResponderTerminate: (evt, gestureState) => {
-          // Another component has become the responder, so this gesture
-          // should be cancelled
+          longPress = false;
+          stillPressing = false;
+          setDraging(false);
         },
         onShouldBlockNativeResponder: (evt, gestureState) => {
           // Returns whether this component should block native components from becoming the JS
