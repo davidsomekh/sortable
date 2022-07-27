@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, Text,Button} from "react-native";
+import { View, Text, Button } from "react-native";
 import { Modal } from "react-native";
 
 import styles from "./Style.js";
 
-
 export function TaskPage(props) {
+
   return (
     <>
       <View style={styles.page}>
-       <Modal
+        <Modal
           animationType="fade"
           transparent={true}
           visible={true}
@@ -20,13 +20,8 @@ export function TaskPage(props) {
         >
           <View style={styles.box}>
             <Text>{props.name}</Text>
+            <Button onPress={props.close} title="Close" color="#121432" />
           </View>
-          <Button
-           onPress={props.close}
-        title="Close"
-        color="#121432"
-  
-      />
         </Modal>
       </View>
     </>
