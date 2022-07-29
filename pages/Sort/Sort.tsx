@@ -32,6 +32,8 @@ export function Sort() {
 
   const flatlist = useRef<FlatList>(null);
 
+  let n: ReturnType<typeof setTimeout>;
+
   let stillPressing = false;
   let longPress = false;
 
@@ -62,8 +64,8 @@ export function Sort() {
     () =>
       PanResponder.create({
         // Ask to be the responder:
-        onStartShouldSetPanResponder: (evt, gestureState) => false,
-        onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+        onStartShouldSetPanResponder: (evt, gestureState) => true,
+        onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
         onMoveShouldSetPanResponder: (evt, gestureState) => true,
         onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
@@ -72,7 +74,7 @@ export function Sort() {
 
          // Vibration.vibrate(20);
 
-          setTimeout(function () {
+         n = setTimeout(function () {
             if (stillPressing) {
               //if(isAndroid())
                // setDraging(true);
@@ -100,14 +102,21 @@ export function Sort() {
         onPanResponderRelease: (evt, gestureState) => {
           // The user has released all touches while this view is the
           // responder. This typically means a gesture has succeeded
+          clearTimeout(n);
           longPress = false;
           stillPressing = false;
           setDraging(false);
+      
+           
+          
         },
         onPanResponderTerminate: (evt, gestureState) => {
+          clearTimeout(n);
           longPress = false;
           stillPressing = false;
           setDraging(false);
+
+         
         },
         onShouldBlockNativeResponder: (evt, gestureState) => {
           // Returns whether this component should block native components from becoming the JS
