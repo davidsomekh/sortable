@@ -121,7 +121,11 @@ export function Sort() {
   data.push({ name: "daniel", key: 24 });
 
   const setLong = (long) => {
-    if (long) setLongPress(long);
+    if (long) 
+    {
+      Vibration.vibrate(50r);
+      setLongPress(long);
+    }
   };
 
   const renderDrag = () => <TaskRow moving={true} name="john" />;
