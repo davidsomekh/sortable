@@ -88,9 +88,9 @@ export function Sort() {
   };
 
   const onTask = (taskname: string) => {
-    //   setActiveTask(taskname);
-    // setShowTask(true);
-    console.log("task clicked: " + taskname);
+       setActiveTask(taskname);
+    setShowTask(true);
+  
   };
 
   const data: {}[] = [];

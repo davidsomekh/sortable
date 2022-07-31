@@ -12,7 +12,6 @@ export function TaskRow(props) {
   const moving = props.moving;
 
   const onTask = () => {
-    console.log("g");
     props.onClick(props.name);
   };
 
