@@ -13,84 +13,53 @@ import {
 import React, { useRef, useMemo, useState } from "react";
 import styles from "./Style.js";
 
-
-
-
-import {isApple} from "../../Shared/GetPlatform";
-import {isAndroid} from "../../Shared/GetPlatform";
-import {isWeb} from "../../Shared/GetPlatform";
+import { isApple } from "../../Shared/GetPlatform";
+import { isAndroid } from "../../Shared/GetPlatform";
+import { isWeb } from "../../Shared/GetPlatform";
 
 import { TaskRow } from "../../Components/TaskRow/TaskRow";
 import { TaskPage } from "../../Components/TaskPage/TaskPage";
 
 export function Sort() {
   const point = React.useRef(new Animated.ValueXY());
-  const [dragging, setDraging] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
-  const [activeTask,setActiveTask] = useState("");
-  const [showTask,setShowTask] = useState(false);
+  const [activeTask, setActiveTask] = useState("");
+  const [showTask, setShowTask] = useState(false);
 
   const flatlist = useRef<FlatList>(null);
 
-  let n: ReturnType<typeof setTimeout>;
-
-  let stillPressing = false;
-  let longPress = false;
-
-  const ONE_SECOND_IN_MS = 1000;
-
-  const PATTERN = [
-    1 * ONE_SECOND_IN_MS,
-    2 * ONE_SECOND_IN_MS,
-    3 * ONE_SECOND_IN_MS
-  ];
-
-  const PATTERN_DESC =
-    isAndroid()
-      ? "wait 1s, vibrate 2s, wait 3s"
-      : "wait 1s, vibrate, wait 2s, vibrate, wait 3s";
-  
-
-  const getLongPressDelay = () =>{
-    if(isApple())
-      return 500;
-    else if(isAndroid())
-      return 1000;
-      
-    return 150;
-  }
+  const [longpress, setLongPress] = useState(false);
 
   const panResponder = useMemo(
     () =>
       PanResponder.create({
         // Ask to be the responder:
-        onStartShouldSetPanResponder: (evt, gestureState) => true,
-        onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-        onMoveShouldSetPanResponder: (evt, gestureState) => true,
-        onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+        onStartShouldSetPanResponder: (evt, gestureState) => {
+          return false;
+        },
+        onStartShouldSetPanResponderCapture: (evt, gestureState) => {
+          // console.log('testing');
+          return longpress;
+        },
+        onMoveShouldSetPanResponder: (evt, gestureState) => {
+          return false;
+        },
+        onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
+          //   console.log('testing move');
+
+          // if(longpress)
+          // console.log('draggoing');
+          return longpress;
+        },
 
         onPanResponderGrant: (evt, gestureState) => {
-          stillPressing = true;
-
-         // Vibration.vibrate(20);
-
-         n = setTimeout(function () {
-            if (stillPressing) {
-              //if(isAndroid())
-               // setDraging(true);
-               Vibration.vibrate(20);
-
-              longPress = true;
-            }
-          }, getLongPressDelay());
-
-          // The gesture has started. Show visual feedback so the user knows
-          // what is happening!
-          // gestureState.d{x,y} will be set to zero now
+          // console.log('onPanResponderGrant');
         },
         onPanResponderMove: (evt, gestureState) => {
-          if (longPress) {
-            setDraging(true);
+          if (longpress) {
+            setDragging(true);
+            // setDraging(true);
             Animated.event([{ y: point.current.y }], {
               useNativeDriver: false,
             })({
@@ -98,44 +67,31 @@ export function Sort() {
             });
           }
         },
-        onPanResponderTerminationRequest: (evt, gestureState) => false,
+        onPanResponderTerminationRequest: (evt, gestureState) => true,
         onPanResponderRelease: (evt, gestureState) => {
-          // The user has released all touches while this view is the
-          // responder. This typically means a gesture has succeeded
-          clearTimeout(n);
-          longPress = false;
-          stillPressing = false;
-          setDraging(false);
-      
-           
-          
+          setLongPress(false);
+          setDragging(false);
         },
         onPanResponderTerminate: (evt, gestureState) => {
-          clearTimeout(n);
-          longPress = false;
-          stillPressing = false;
-          setDraging(false);
-
-         
+          setLongPress(false);
+          setDragging(false);
         },
         onShouldBlockNativeResponder: (evt, gestureState) => {
-          // Returns whether this component should block native components from becoming the JS
-          // responder. Returns true by default. Is currently only supported on android.
           return true;
         },
       }),
-    []
+    [longpress]
   );
 
-  const hideTaskPage = ()=>{
+  const hideTaskPage = () => {
     setShowTask(false);
-  }
+  };
 
-  const onTask = (taskname:string)=>{
-    setActiveTask(taskname);
-    setShowTask(true);
-    console.log('task clicked: ' + taskname);
-  }
+  const onTask = (taskname: string) => {
+    //   setActiveTask(taskname);
+    // setShowTask(true);
+    console.log("task clicked: " + taskname);
+  };
 
   const data: {}[] = [];
   data.push({ name: "dss", key: 1 });
@@ -164,22 +120,23 @@ export function Sort() {
   data.push({ name: "john", key: 23 });
   data.push({ name: "daniel", key: 24 });
 
-  const renderDrag = () => (
-    <TaskRow moving={true} name="john" />
-  );
+  const setLong = (long) => {
+    if (long) setLongPress(long);
+  };
+
+  const renderDrag = () => <TaskRow moving={true} name="john" />;
 
   return (
-    <SafeAreaView style={styles.container}>
-      {showTask && <TaskPage close={hideTaskPage} name={activeTask}/>}
+    <SafeAreaView {...panResponder.panHandlers} style={styles.container}>
+      {showTask && <TaskPage close={hideTaskPage} name={activeTask} />}
       <Animated.View
         style={{
           zIndex: 2,
           width: "100%",
-          position:"absolute",
+          position: "absolute",
           top: point.current.getLayout().top,
         }}
       >
-     
         {dragging && renderDrag()}
       </Animated.View>
 
@@ -189,8 +146,8 @@ export function Sort() {
         style={styles.list}
         data={data}
         renderItem={({ item }) => (
-          <View {...panResponder.panHandlers}>
-            <TaskRow onClick={onTask} name={item.name} />
+          <View>
+            <TaskRow onLong={setLong} onClick={onTask} name={item.name} />
           </View>
         )}
       />

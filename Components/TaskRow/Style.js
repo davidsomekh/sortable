@@ -7,7 +7,7 @@ export default StyleSheet.create({
   },
   hover: {
     width: "100%",
-
+    userSelect:"none",
     textAlign: "center",
     padding: 12,
     backgroundColor: "#121432",
@@ -19,6 +19,7 @@ export default StyleSheet.create({
   moving: {
     alignItems: "center",
     width: "100%",
+  
     cursor: "pointer",
     userSelect: "none",
     textAlign: "center",
@@ -28,10 +29,11 @@ export default StyleSheet.create({
   active: {
     borderLeftWidth: 3,
     borderLeftColor: "pink",
+
   },
   notHover: {
     width: "100%",
-
+   
     textAlign: "center",
     padding: 12,
   },
