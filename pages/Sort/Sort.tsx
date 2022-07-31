@@ -116,7 +116,7 @@ export function Sort() {
     
        // check if we are near the bottom or top
        if (currentY != 0 && (currentY + 150 > height)) {
-        console.log('bottom');
+  
         flatlist?.current?.scrollToOffset({
           offset: scrollOffset + 35,
           animated: false
