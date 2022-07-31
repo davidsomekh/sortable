@@ -123,7 +123,7 @@ export function Sort() {
   const setLong = (long) => {
     if (long) 
     {
-      Vibration.vibrate(50r);
+      Vibration.vibrate(50);
       setLongPress(long);
     }
   };
