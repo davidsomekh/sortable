@@ -10,7 +10,7 @@ import {
   Animated,
   SafeAreaView,
 } from "react-native";
-import React, { useRef, useMemo, useState } from "react";
+import React, { useRef, useMemo, useState, useEffect } from "react";
 import styles from "./Style.js";
 
 import { isApple } from "../../Shared/GetPlatform";
@@ -27,7 +27,22 @@ export function Sort() {
   const [activeTask, setActiveTask] = useState("");
   const [showTask, setShowTask] = useState(false);
 
+  const [scrollOffset,setScrollOffset] = useState(0);
+
   const flatlist = useRef<FlatList>(null);
+
+  let flatListHeight = 0;
+ 
+
+  const [currentY,setCurrentY] = useState(0);
+
+  const [height,setHeight] = useState(0);
+
+
+
+
+  const [scrollPos,setScrollPos]  = useState(0);
+  const [listHeight,setListHeight] = useState(0);
 
   const [longpress, setLongPress] = useState(false);
 
@@ -58,12 +73,15 @@ export function Sort() {
         },
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
+            let d = 0;
+            setCurrentY(gestureState.moveY);  
             setDragging(true);
             // setDraging(true);
             Animated.event([{ y: point.current.y }], {
               useNativeDriver: false,
             })({
               y: gestureState.moveY - 15,
+
             });
           }
         },
@@ -92,6 +110,30 @@ export function Sort() {
     setShowTask(true);
   
   };
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+    
+       // check if we are near the bottom or top
+       if (currentY != 0 && (currentY + 150 > height)) {
+        console.log('bottom');
+        flatlist?.current?.scrollToOffset({
+          offset: scrollOffset + 35,
+          animated: false
+        });
+        
+     
+      }
+     else if (currentY < 100) {
+        flatlist?.current?.scrollToOffset({
+        offset: scrollOffset - 35,
+        animated: false
+      });
+    }
+    })
+  }, [currentY]);
+
+
 
   const data: {}[] = [];
   data.push({ name: "dss", key: 1 });
@@ -146,6 +188,13 @@ export function Sort() {
 
       <FlatList
         scrollEnabled={isWeb() || !dragging}
+        onScroll={e => {
+          setScrollOffset(e.nativeEvent.contentOffset.y);
+        }}
+        onLayout={e => {
+          console.log(e.nativeEvent.layout.height);
+          setHeight(e.nativeEvent.layout.height);
+        }}
         ref={flatlist}
         style={styles.list}
         data={data}
