@@ -100,7 +100,7 @@ export function Sort() {
           return true;
         },
       }),
-    [longpress]
+    [longpress,scrollOffset]
   );
 
   const resetDrag = () => {
@@ -141,6 +141,7 @@ export function Sort() {
   };
 
   const yToIndex = (y: number) => {
+   
     const value = Math.floor(
       (scrollOffset + y - flatlistTopOffset) / rowHeight
     );
@@ -197,11 +198,15 @@ export function Sort() {
           offset: scrollOffset + 35,
           animated: false,
         });
+
+       // setScrollOffset(scrollOffset + 35);
       } else if (currentY < 100) {
         flatlist?.current?.scrollToOffset({
           offset: scrollOffset - 35,
           animated: false,
         });
+
+     //   setScrollOffset(scrollOffset - 35);
       }
     });
   }, [currentY]);
@@ -262,7 +267,7 @@ export function Sort() {
       <FlatList
         scrollEnabled={isWeb() || !dragging}
         onScroll={(e) => {
-          setScrollOffset(e.nativeEvent.contentOffset.y);
+            setScrollOffset(e.nativeEvent.contentOffset.y);
         }}
         onLayout={(e) => {
           setHeight(e.nativeEvent.layout.height);
