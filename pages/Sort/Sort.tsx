@@ -76,6 +76,7 @@ export function Sort() {
         },
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
+            setDragend(false);
             let d = 0;
             setCurrentY(gestureState.moveY);
             setDragIndex(yToIndex(gestureState.moveY));
@@ -104,11 +105,14 @@ export function Sort() {
 
   const resetDrag = () => {
     if (longpress) {
-      setDragend(false);
+      setDragend(true);
     }
+
+    // setDragIndex(-1);
+    // setStartIndex(0);
+
     setLongPress(false);
     setDragging(false);
-    setDragend(true);
   };
 
   const hideTaskPage = () => {
