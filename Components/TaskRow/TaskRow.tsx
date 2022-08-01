@@ -16,12 +16,12 @@ export function TaskRow(props) {
   };
 
   const onLong = () => {
-    props.onLong(true);
+    props.onLong(true,props.name);
   };
 
   const onRelease = () => {
     //  console.log('on relesae called');
-    props.onLong(false);
+    props.onLong(false,props.name);
   };
 
   return (
