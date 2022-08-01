@@ -38,6 +38,8 @@ export function Sort() {
 
   const flatlist = useRef<FlatList>(null);
 
+  const [startIndex, setStartIndex] = useState(0);
+  const [dragend, setDragend] = useState(false);
   const [currentY, setCurrentY] = useState(0);
 
   const [height, setHeight] = useState(0);
@@ -101,9 +103,12 @@ export function Sort() {
   );
 
   const resetDrag = () => {
+    if (longpress) {
+      setDragend(false);
+    }
     setLongPress(false);
     setDragging(false);
-    setDragIndex(-1);
+    setDragend(true);
   };
 
   const hideTaskPage = () => {
@@ -166,15 +171,19 @@ export function Sort() {
   const handleRemove = (indexRemove) => {
     const items = data;
     if (items.length > 0) {
-        const lastIndex = items.length - 1;
-        setData(items.filter((item, index) => index !== indexRemove));
+      const lastIndex = items.length - 1;
+      setData(items.filter((item, index) => index !== indexRemove));
     }
-};
+  };
 
   useEffect(() => {
-
-   // handleRemove(1);
-  }, []);
+    if (dragend) {
+      console.log(startIndex);
+      console.log(dragIndex);
+      setDragIndex(-1);
+      setStartIndex(0);
+    }
+  }, [dragend]);
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -221,11 +230,12 @@ export function Sort() {
 
   const [data, setData] = useState(recs); //[{name: string, key: number }[]];
 
-  const setLong = (long, name: string) => {
+  const setLong = (long, name: string, index: number) => {
     if (long) {
       Vibration.vibrate(50);
-      setLongPress(long);
       setDraggedName(name);
+      setStartIndex(index);
+      setLongPress(long);
     }
   };
 
@@ -272,7 +282,7 @@ export function Sort() {
                 onLong={setLong}
                 onClick={onTask}
                 name={item.name}
-   
+                index={item.key}
               />
             )}
           </View>
