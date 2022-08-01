@@ -165,6 +165,8 @@ export function Sort() {
       if (index === row.key) name = row.name;
     }
 
+    return name;
+
     // setDraggedName(name);
   };
 
@@ -185,10 +187,26 @@ export function Sort() {
     if (dragend) {
       console.log(startIndex);
       console.log(dragIndex);
+
+      onDragEnd(startIndex,dragIndex);
       setDragIndex(-1);
       setStartIndex(0);
     }
   }, [dragend]);
+
+  const onDragEnd = (start,end) =>{
+    //immutableMove(data,start,end);
+
+    let recs = data.slice(0);;
+
+    for (const row of data) {
+      if(row.key == end)
+        row.name =indexToName(start);
+    }
+
+    console.log(recs);
+
+  }
 
   useEffect(() => {
     requestAnimationFrame(() => {
