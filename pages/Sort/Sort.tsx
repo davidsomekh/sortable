@@ -40,7 +40,6 @@ export function Sort() {
 
   const [startIndex, setStartIndex] = useState(0);
   const [dragend, setDragend] = useState(false);
-  const [currentY, setCurrentY] = useState(0);
 
   const [height, setHeight] = useState(0);
 
@@ -48,6 +47,8 @@ export function Sort() {
   const [listHeight, setListHeight] = useState(0);
 
   const [longpress, setLongPress] = useState(false);
+
+  console.log('another render');
 
   const panResponder = useMemo(
     () =>
@@ -76,9 +77,11 @@ export function Sort() {
         },
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
+            let bMoveUp = gestureState.y0 > gestureState.moveY;
+          
+
             setDragend(false);
-            let d = 0;
-            setCurrentY(gestureState.moveY);
+             dragAndScroll(gestureState.moveY,bMoveUp);
             setDragIndex(yToIndex(gestureState.moveY));
             setDragging(true);
             // setDraging(true);
@@ -208,26 +211,23 @@ export function Sort() {
 
   }
 
-  useEffect(() => {
-  
-      // check if we are near the bottom or top
-      if (currentY != 0 && currentY + 150 > height) {
-        flatlist?.current?.scrollToOffset({
-          offset: scrollOffset + 35,
-          animated: false,
-        });
+  const dragAndScroll = (CurrY: number,MoveUp:boolean)=>{
+    if (!MoveUp && CurrY != 0 && CurrY + 150 > height) {
+      flatlist?.current?.scrollToOffset({
+        offset: scrollOffset + 35,
+        animated: false,
+      });
 
-       // setScrollOffset(scrollOffset + 35);
-      } else if (currentY < 100) {
-        flatlist?.current?.scrollToOffset({
-          offset: scrollOffset - 35,
-          animated: false,
-        });
+     // setScrollOffset(scrollOffset + 35);
+    } else if (MoveUp && CurrY < 100) {
+      flatlist?.current?.scrollToOffset({
+        offset: scrollOffset - 35,
+        animated: false,
+      });
+  }
+}
 
-     //   setScrollOffset(scrollOffset - 35);
-      }
- 
-  }, [currentY]);
+
 
   let recs = [{ name: "", key: 0 }];
   recs.push({ name: "dave", key: 1 });
