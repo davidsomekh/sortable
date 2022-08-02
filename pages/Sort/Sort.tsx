@@ -77,11 +77,23 @@ export function Sort() {
         },
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
-            let bMoveUp = gestureState.y0 > gestureState.moveY;
+            let iMoveDir = 0;
+            if(gestureState.y0 == 0)
+              iMoveDir = 0;
+            else if(gestureState.y0 > gestureState.moveY)
+              iMoveDir = 2;
+            else if(gestureState.y0 < gestureState.moveY)
+              iMoveDir = 1;
+            
+            
+
+            console.log(gestureState.y0);
+            console.log(gestureState.moveY);
           
 
             setDragend(false);
-             dragAndScroll(gestureState.moveY,bMoveUp);
+            if(gestureState.y0 != gestureState.moveY)
+              dragAndScroll(gestureState.moveY,iMoveDir);
             setDragIndex(yToIndex(gestureState.moveY));
             setDragging(true);
             // setDraging(true);
@@ -211,15 +223,19 @@ export function Sort() {
 
   }
 
-  const dragAndScroll = (CurrY: number,MoveUp:boolean)=>{
-    if (!MoveUp && CurrY != 0 && CurrY + 150 > height) {
+  const dragAndScroll = (CurrY: number,MoveDir:number)=>{
+
+    let bMoveDown = MoveDir == 0 || MoveDir == 1;
+    let bMoveUp = MoveDir == 0 || MoveDir == 2;
+
+    if (bMoveDown && CurrY != 0 && CurrY + 150 > height) {
       flatlist?.current?.scrollToOffset({
         offset: scrollOffset + 35,
         animated: false,
       });
 
      // setScrollOffset(scrollOffset + 35);
-    } else if (MoveUp && CurrY < 100) {
+    } else if (bMoveUp && CurrY < 100) {
       flatlist?.current?.scrollToOffset({
         offset: scrollOffset - 35,
         animated: false,
