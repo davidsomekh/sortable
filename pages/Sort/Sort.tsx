@@ -209,7 +209,7 @@ export function Sort() {
   }
 
   useEffect(() => {
-    requestAnimationFrame(() => {
+  
       // check if we are near the bottom or top
       if (currentY != 0 && currentY + 150 > height) {
         flatlist?.current?.scrollToOffset({
@@ -226,7 +226,7 @@ export function Sort() {
 
      //   setScrollOffset(scrollOffset - 35);
       }
-    });
+ 
   }, [currentY]);
 
   let recs = [{ name: "", key: 0 }];
