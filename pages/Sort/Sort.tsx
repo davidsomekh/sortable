@@ -48,7 +48,7 @@ export function Sort() {
 
   const [longpress, setLongPress] = useState(false);
 
-  console.log('another render');
+ // console.log('another render');
 
   const panResponder = useMemo(
     () =>
@@ -188,8 +188,8 @@ export function Sort() {
 
   useEffect(() => {
     if (dragend) {
-      console.log(startIndex);
-      console.log(dragIndex);
+  //    console.log(startIndex);
+    //  console.log(dragIndex);
 
       onDragEnd(startIndex,dragIndex);
       setDragIndex(-1);
@@ -207,7 +207,7 @@ export function Sort() {
         row.name =indexToName(start);
     }
 
-    console.log(recs);
+   // console.log(recs);
 
   }
 
