@@ -87,8 +87,8 @@ export function Sort() {
             
             
 
-            console.log(gestureState.y0);
-            console.log(gestureState.moveY);
+         //   console.log(gestureState.y0);
+           //console.log(gestureState.moveY);
           
 
             setDragend(false);
@@ -212,12 +212,18 @@ export function Sort() {
   const onDragEnd = (start,end) =>{
     //immutableMove(data,start,end);
 
-    let recs = data.slice(0);;
+    arraymove(data,start,end);
+
+    fixArrayKeys();
+
+    //console.log(data);
+
+    /*let recs = data.slice(0);;
 
     for (const row of data) {
       if(row.key == end)
         row.name =indexToName(start);
-    }
+    }*/
 
    // console.log(recs);
 
@@ -270,6 +276,14 @@ export function Sort() {
   recs.push({ name: "mike", key: 22 });
   recs.push({ name: "john", key: 23 });
   recs.push({ name: "daniel", key: 24 });
+  recs.push({ name: "mike", key: 25 });
+  recs.push({ name: "john", key: 26 });
+  recs.push({ name: "daniel", key: 27 });
+  recs.push({ name: "steve", key: 28 });
+  recs.push({ name: "roy", key: 29 });
+  recs.push({ name: "mike", key: 30 });
+  recs.push({ name: "john", key: 31 });
+  recs.push({ name: "daniel", key: 32 });
 
   const [data, setData] = useState(recs); //[{name: string, key: number }[]];
 
@@ -281,6 +295,19 @@ export function Sort() {
       setLongPress(long);
     }
   };
+
+  function arraymove(arr, fromIndex, toIndex) {
+    var element = arr[fromIndex];
+    arr.splice(fromIndex, 1);
+    arr.splice(toIndex, 0, element);
+}
+
+  const fixArrayKeys = () =>{
+    for (var i = 0; i < data.length; i++) {
+      data[i].key = i;
+      //Do something
+  }
+  }
 
   const renderDrag = () => <TaskRow moving={true} name={draggedName} />;
 
