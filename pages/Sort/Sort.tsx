@@ -77,6 +77,7 @@ export function Sort() {
         },
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
+           
             let iMoveDir = 0;
             if(gestureState.y0 == 0)
               iMoveDir = 0;
@@ -95,6 +96,7 @@ export function Sort() {
             if(gestureState.y0 != gestureState.moveY)
               dragAndScroll(gestureState.moveY,iMoveDir);
             setDragIndex(yToIndex(gestureState.moveY));
+
             setDragging(true);
             // setDraging(true);
             Animated.event([{ y: point.current.y }], {
@@ -212,9 +214,14 @@ export function Sort() {
   const onDragEnd = (start,end) =>{
     //immutableMove(data,start,end);
 
-    arraymove(data,start,end);
+   // console.log(start);
+   // console.log(end);
+
+    arraymove(data,start-1,end-1);
 
     fixArrayKeys();
+
+  //  console.log(data);
 
     //console.log(data);
 
@@ -250,40 +257,41 @@ export function Sort() {
 }
 
 
+interface Task {
+  name:string,
+  key:number,
+}
 
-  let recs = [{ name: "", key: 0 }];
-  recs.push({ name: "dave", key: 1 });
-  recs.push({ name: "roy", key: 2 });
-  recs.push({ name: "mike", key: 3 });
-  recs.push({ name: "john", key: 4 });
-  recs.push({ name: "david", key: 5 });
-  recs.push({ name: "roy", key: 6 });
-  recs.push({ name: "mike", key: 7 });
-  recs.push({ name: "john", key: 8 });
-  recs.push({ name: "daniel", key: 9 });
-  recs.push({ name: "david", key: 10 });
-  recs.push({ name: "roy", key: 11 });
-  recs.push({ name: "mike", key: 12 });
-  recs.push({ name: "john", key: 13 });
-  recs.push({ name: "daniel", key: 14 });
-  recs.push({ name: "david", key: 15 });
-  recs.push({ name: "roy", key: 16 });
-  recs.push({ name: "mike", key: 17 });
-  recs.push({ name: "john", key: 18 });
-  recs.push({ name: "daniel", key: 19 });
-  recs.push({ name: "david", key: 20 });
-  recs.push({ name: "roy", key: 21 });
-  recs.push({ name: "mike", key: 22 });
-  recs.push({ name: "john", key: 23 });
-  recs.push({ name: "daniel", key: 24 });
-  recs.push({ name: "mike", key: 25 });
-  recs.push({ name: "john", key: 26 });
-  recs.push({ name: "daniel", key: 27 });
-  recs.push({ name: "steve", key: 28 });
-  recs.push({ name: "roy", key: 29 });
-  recs.push({ name: "mike", key: 30 });
-  recs.push({ name: "john", key: 31 });
-  recs.push({ name: "daniel", key: 32 });
+let recs: Task[] = [
+  { key: 1, name: 'Eliana' },
+  { key: 2, name: 'Ariel' },
+  { key: 3, name: 'Daniel' },
+  { key: 4, name: 'Ayelet' },
+  { key: 5, name: 'David' },
+  /*{ key: 6, name: 'Jack' },
+  { key: 7, name: 'Tom' },
+  { key: 8, name: 'Jeff' },
+  { key: 9, name: 'Tom' },
+  { key: 10, name: 'Bob' },
+  { key: 11, name: 'Tom' },
+  { key: 12, name: 'James' },
+  { key: 13, name: 'Tom' },
+  { key: 14, name: 'Jeff' },
+  { key: 15, name: 'Tom' },
+  { key: 16, name: 'Louis' },
+  { key: 17, name: 'Roy' },
+  { key: 18, name: 'Mike' },
+  { key: 19, name: 'Tom' },
+  { key: 20, name: 'Jeff' },
+  { key: 21, name: 'Tom' },
+  { key: 22, name: 'Roy' },
+  { key: 23, name: 'Tom' },
+  { key: 24, name: 'Koby' },
+  { key: 25, name: 'Tom' },
+  { key: 26, name: 'Jeff' },
+  { key: 27, name: 'Mike' },
+  { key: 28, name: 'Bill' },*/
+];
 
   const [data, setData] = useState(recs); //[{name: string, key: number }[]];
 
@@ -304,7 +312,7 @@ export function Sort() {
 
   const fixArrayKeys = () =>{
     for (var i = 0; i < data.length; i++) {
-      data[i].key = i;
+      data[i].key = i + 1;
       //Do something
   }
   }
@@ -347,7 +355,7 @@ export function Sort() {
               opacity: dragIndex === item.key ? 0 : 1,
             }}
           >
-            {item.key != 0 && (
+            {item.key != 0 && item.name != '' && (
               <TaskRow
                 onLong={setLong}
                 onClick={onTask}
