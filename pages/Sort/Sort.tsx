@@ -197,7 +197,7 @@ export function Sort() {
     let test : Task[] = [];
 
     let cont = 1;
-    let testItems = 30;
+    let testItems = 25;
 
     while(cont <= testItems)
     {
