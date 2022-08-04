@@ -184,27 +184,29 @@ export function Sort() {
     key: number;
   }
 
+  const getRandomInt = (max)=> {
+    return Math.floor(Math.random() * max);
+  }
+
+  const getRandomObject = () =>{
+    let ds : Task = {key: 1, name: "bobo"};
+    return ds;
+  }
+
   const buildRanomData = () => {
-    return [
-      { key: 1, name: "1" },
-      { key: 2, name: "2" },
-      { key: 3, name: "3" },
-      { key: 4, name: "4" },
-      { key: 5, name: "5" },
-      { key: 6, name: "6" },
-      { key: 7, name: "7" },
-      { key: 8, name: "9" },
-      { key: 9, name: "10" },
-      { key: 10, name: "11" },
-      { key: 11, name: "12" },
-      { key: 12, name: "13" },
-      { key: 13, name: "14" },
-      { key: 14, name: "15" },
-      { key: 15, name: "16" },
-      { key: 16, name: "17" },
-      { key: 17, name: "18" },
-      { key: 18, name: "19" },
-    ];
+    let test : Task[] = [];
+
+    let cont = 1;
+    let testItems = 30;
+
+    while(cont <= testItems)
+    {
+       let ds : Task = {key: cont, name: getRandomInt(testItems).toString()};
+      test.push(ds);
+      cont++;
+    }
+
+    return test;
   };
 
   let recs: Task[] = buildRanomData();
