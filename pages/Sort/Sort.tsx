@@ -60,22 +60,17 @@ export function Sort() {
           return false;
         },
         onStartShouldSetPanResponderCapture: (evt, gestureState) => {
-          // console.log('testing');
           return longpress;
         },
         onMoveShouldSetPanResponder: (evt, gestureState) => {
           return false;
         },
         onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
-          //   console.log('testing move');
-
-          // if(longpress)
-          // console.log('draggoing');
           return longpress;
         },
 
         onPanResponderGrant: (evt, gestureState) => {
-          // console.log('onPanResponderGrant');
+
         },
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
@@ -129,9 +124,6 @@ export function Sort() {
       setDragend(true);
     }
 
-    // setDragIndex(-1);
-    // setStartIndex(0);
-
     setLongPress(false);
     setDragging(false);
   };
@@ -155,28 +147,9 @@ export function Sort() {
     return value + 1;
   };
 
-  const indexToName = (index: number) => {
-    let name = "null";
-    for (const row of data) {
-      if (index === row.key) name = row.name;
-    }
-
-    return name;
-
-    // setDraggedName(name);
-  };
-
   const onTask = (taskname: string) => {
     setActiveTask(taskname);
     setShowTask(true);
-  };
-
-  const handleRemove = (indexRemove) => {
-    const items = data;
-    if (items.length > 0) {
-      const lastIndex = items.length - 1;
-      setData(items.filter((item, index) => index !== indexRemove));
-    }
   };
 
   useEffect(() => {
