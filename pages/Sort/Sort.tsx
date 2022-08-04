@@ -255,36 +255,17 @@ export function Sort() {
     key: number;
   }
 
-  let recs: Task[] = [
-    { key: 1, name: "Eliana" },
-    { key: 2, name: "Ariel" },
-    { key: 3, name: "Daniel" },
-    { key: 4, name: "Ayelet" },
-    { key: 5, name: "David" },
-    /*{ key: 6, name: 'Jack' },
-  { key: 7, name: 'Tom' },
-  { key: 8, name: 'Jeff' },
-  { key: 9, name: 'Tom' },
-  { key: 10, name: 'Bob' },
-  { key: 11, name: 'Tom' },
-  { key: 12, name: 'James' },
-  { key: 13, name: 'Tom' },
-  { key: 14, name: 'Jeff' },
-  { key: 15, name: 'Tom' },
-  { key: 16, name: 'Louis' },
-  { key: 17, name: 'Roy' },
-  { key: 18, name: 'Mike' },
-  { key: 19, name: 'Tom' },
-  { key: 20, name: 'Jeff' },
-  { key: 21, name: 'Tom' },
-  { key: 22, name: 'Roy' },
-  { key: 23, name: 'Tom' },
-  { key: 24, name: 'Koby' },
-  { key: 25, name: 'Tom' },
-  { key: 26, name: 'Jeff' },
-  { key: 27, name: 'Mike' },
-  { key: 28, name: 'Bill' },*/
-  ];
+  const buildRanomData= () =>{
+    return [
+      { key: 1, name: "Eliana" },
+      { key: 2, name: "Ariel" },
+      { key: 3, name: "Daniel" },
+      { key: 4, name: "Ayelet" },
+      { key: 5, name: "David" },
+     ];
+}
+
+  let recs: Task[] = buildRanomData();
 
   const [data, setData] = useState(recs); //[{name: string, key: number }[]];
 
@@ -296,6 +277,8 @@ export function Sort() {
       setLongPress(long);
     }
   };
+
+  
 
   function arraymove(arr, fromIndex, toIndex) {
     var element = arr[fromIndex];
