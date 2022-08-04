@@ -197,7 +197,7 @@ export function Sort() {
     let test : Task[] = [];
 
     let cont = 1;
-    let testItems = 25;
+    let testItems = getRandomInt(50);
 
     while(cont <= testItems)
     {
