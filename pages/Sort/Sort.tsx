@@ -139,28 +139,6 @@ export function Sort() {
   const hideTaskPage = () => {
     setShowTask(false);
   };
-
-  const immutableMove = (arr, from, to) => {
-    return arr.reduce((prev, current, idx, self) => {
-      if (from === to) {
-        prev.push(current);
-      }
-      if (idx === from) {
-        return prev;
-      }
-      if (from < to) {
-        prev.push(current);
-      }
-      if (idx === to) {
-        prev.push(self[from]);
-      }
-      if (from > to) {
-        prev.push(current);
-      }
-      //setData(arr);
-    }, []);
-  };
-
   const yToIndex = (y: number) => {
     const value = Math.floor(
       (scrollOffset + y - flatlistTopOffset) / rowHeight
@@ -173,8 +151,6 @@ export function Sort() {
     if (value > data.length - 1) {
       return data.length - 1;
     }
-
-    //console.log(value + 1);
 
     return value + 1;
   };
@@ -205,39 +181,11 @@ export function Sort() {
 
   useEffect(() => {
     if (dragend) {
-      //    console.log(startIndex);
-      //  console.log(dragIndex);
-
-      //  onDragEnd(startIndex,dragIndex);
       setStartPos(-1);
       setDragIndex(-1);
       setStartIndex(0);
     }
   }, [dragend]);
-
-  const onDragEnd = (start, end) => {
-    //immutableMove(data,start,end);
-
-    // console.log(start);
-    // console.log(end);
-
-    arraymove(data, start - 1, end - 1);
-
-    fixArrayKeys();
-
-    //  console.log(data);
-
-    //console.log(data);
-
-    /*let recs = data.slice(0);;
-
-    for (const row of data) {
-      if(row.key == end)
-        row.name =indexToName(start);
-    }*/
-
-    // console.log(recs);
-  };
 
   const dragAndScroll = (CurrY: number, MoveDir: number) => {
     let bMoveDown = MoveDir == 0 || MoveDir == 1;
