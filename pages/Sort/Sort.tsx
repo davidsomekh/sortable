@@ -31,6 +31,8 @@ export function Sort() {
   const [activeTask, setActiveTask] = useState("");
   const [showTask, setShowTask] = useState(false);
 
+  const [startPos, setStartPos] = useState(-1);
+
   const [scrollOffset, setScrollOffset] = useState(0);
 
   const [flatlistTopOffset, setflatlistTopOffset] = useState(0);
@@ -78,12 +80,17 @@ export function Sort() {
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
             let iMoveDir = 0;
-            if (gestureState.y0 == 0) iMoveDir = 0;
-            else if (gestureState.y0 > gestureState.moveY) iMoveDir = 2;
-            else if (gestureState.y0 < gestureState.moveY) iMoveDir = 1;
+
+            let start = gestureState.y0 > 0 ? gestureState.y0 : startPos;
+
+            if (startPos === -1) setStartPos(gestureState.y0);
+
+            if (start == 0) iMoveDir = 0;
+            else if (start > gestureState.moveY) iMoveDir = 2;
+            else if (start < gestureState.moveY) iMoveDir = 1;
 
             setDragend(false);
-            if (gestureState.y0 != gestureState.moveY)
+            if (start != gestureState.moveY)
               dragAndScroll(gestureState.moveY, iMoveDir);
 
             setDragIndex(yToIndex(gestureState.moveY));
@@ -202,6 +209,7 @@ export function Sort() {
       //  console.log(dragIndex);
 
       //  onDragEnd(startIndex,dragIndex);
+      setStartPos(-1);
       setDragIndex(-1);
       setStartIndex(0);
     }
@@ -255,15 +263,28 @@ export function Sort() {
     key: number;
   }
 
-  const buildRanomData= () =>{
+  const buildRanomData = () => {
     return [
-      { key: 1, name: "Eliana" },
-      { key: 2, name: "Ariel" },
-      { key: 3, name: "Daniel" },
-      { key: 4, name: "Ayelet" },
-      { key: 5, name: "David" },
-     ];
-}
+      { key: 1, name: "1" },
+      { key: 2, name: "2" },
+      { key: 3, name: "3" },
+      { key: 4, name: "4" },
+      { key: 5, name: "5" },
+      { key: 6, name: "6" },
+      { key: 7, name: "7" },
+      { key: 8, name: "9" },
+      { key: 9, name: "10" },
+      { key: 10, name: "11" },
+      { key: 11, name: "12" },
+      { key: 12, name: "13" },
+      { key: 13, name: "14" },
+      { key: 14, name: "15" },
+      { key: 15, name: "16" },
+      { key: 16, name: "17" },
+      { key: 17, name: "18" },
+      { key: 18, name: "19" },
+    ];
+  };
 
   let recs: Task[] = buildRanomData();
 
@@ -277,8 +298,6 @@ export function Sort() {
       setLongPress(long);
     }
   };
-
-  
 
   function arraymove(arr, fromIndex, toIndex) {
     var element = arr[fromIndex];
