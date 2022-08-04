@@ -48,7 +48,7 @@ export function Sort() {
 
   const [longpress, setLongPress] = useState(false);
 
- // console.log('another render');
+  // console.log('another render');
 
   const panResponder = useMemo(
     () =>
@@ -77,28 +77,25 @@ export function Sort() {
         },
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
-           
             let iMoveDir = 0;
-            if(gestureState.y0 == 0)
-              iMoveDir = 0;
-            else if(gestureState.y0 > gestureState.moveY)
-              iMoveDir = 2;
-            else if(gestureState.y0 < gestureState.moveY)
-              iMoveDir = 1;
-            
-            
-
-         //   console.log(gestureState.y0);
-           //console.log(gestureState.moveY);
-          
+            if (gestureState.y0 == 0) iMoveDir = 0;
+            else if (gestureState.y0 > gestureState.moveY) iMoveDir = 2;
+            else if (gestureState.y0 < gestureState.moveY) iMoveDir = 1;
 
             setDragend(false);
-            if(gestureState.y0 != gestureState.moveY)
-              dragAndScroll(gestureState.moveY,iMoveDir);
+            if (gestureState.y0 != gestureState.moveY)
+              dragAndScroll(gestureState.moveY, iMoveDir);
+
             setDragIndex(yToIndex(gestureState.moveY));
 
+            if (startIndex != dragIndex && dragIndex > 0 && startIndex > 0) {
+              arraymove(data, startIndex - 1, dragIndex - 1);
+              fixArrayKeys();
+              setStartIndex(dragIndex);
+            }
+
             setDragging(true);
-            // setDraging(true);
+
             Animated.event([{ y: point.current.y }], {
               useNativeDriver: false,
             })({
@@ -117,7 +114,7 @@ export function Sort() {
           return true;
         },
       }),
-    [longpress,scrollOffset]
+    [longpress, scrollOffset, dragIndex, startIndex]
   );
 
   const resetDrag = () => {
@@ -158,7 +155,6 @@ export function Sort() {
   };
 
   const yToIndex = (y: number) => {
-   
     const value = Math.floor(
       (scrollOffset + y - flatlistTopOffset) / rowHeight
     );
@@ -202,26 +198,26 @@ export function Sort() {
 
   useEffect(() => {
     if (dragend) {
-  //    console.log(startIndex);
-    //  console.log(dragIndex);
+      //    console.log(startIndex);
+      //  console.log(dragIndex);
 
-      onDragEnd(startIndex,dragIndex);
+      //  onDragEnd(startIndex,dragIndex);
       setDragIndex(-1);
       setStartIndex(0);
     }
   }, [dragend]);
 
-  const onDragEnd = (start,end) =>{
+  const onDragEnd = (start, end) => {
     //immutableMove(data,start,end);
 
-   // console.log(start);
-   // console.log(end);
+    // console.log(start);
+    // console.log(end);
 
-    arraymove(data,start-1,end-1);
+    arraymove(data, start - 1, end - 1);
 
     fixArrayKeys();
 
-  //  console.log(data);
+    //  console.log(data);
 
     //console.log(data);
 
@@ -232,12 +228,10 @@ export function Sort() {
         row.name =indexToName(start);
     }*/
 
-   // console.log(recs);
+    // console.log(recs);
+  };
 
-  }
-
-  const dragAndScroll = (CurrY: number,MoveDir:number)=>{
-
+  const dragAndScroll = (CurrY: number, MoveDir: number) => {
     let bMoveDown = MoveDir == 0 || MoveDir == 1;
     let bMoveUp = MoveDir == 0 || MoveDir == 2;
 
@@ -247,28 +241,27 @@ export function Sort() {
         animated: false,
       });
 
-     // setScrollOffset(scrollOffset + 35);
+      // setScrollOffset(scrollOffset + 35);
     } else if (bMoveUp && CurrY < 100) {
       flatlist?.current?.scrollToOffset({
         offset: scrollOffset - 35,
         animated: false,
       });
+    }
+  };
+
+  interface Task {
+    name: string;
+    key: number;
   }
-}
 
-
-interface Task {
-  name:string,
-  key:number,
-}
-
-let recs: Task[] = [
-  { key: 1, name: 'Eliana' },
-  { key: 2, name: 'Ariel' },
-  { key: 3, name: 'Daniel' },
-  { key: 4, name: 'Ayelet' },
-  { key: 5, name: 'David' },
-  /*{ key: 6, name: 'Jack' },
+  let recs: Task[] = [
+    { key: 1, name: "Eliana" },
+    { key: 2, name: "Ariel" },
+    { key: 3, name: "Daniel" },
+    { key: 4, name: "Ayelet" },
+    { key: 5, name: "David" },
+    /*{ key: 6, name: 'Jack' },
   { key: 7, name: 'Tom' },
   { key: 8, name: 'Jeff' },
   { key: 9, name: 'Tom' },
@@ -291,7 +284,7 @@ let recs: Task[] = [
   { key: 26, name: 'Jeff' },
   { key: 27, name: 'Mike' },
   { key: 28, name: 'Bill' },*/
-];
+  ];
 
   const [data, setData] = useState(recs); //[{name: string, key: number }[]];
 
@@ -308,14 +301,14 @@ let recs: Task[] = [
     var element = arr[fromIndex];
     arr.splice(fromIndex, 1);
     arr.splice(toIndex, 0, element);
-}
+  }
 
-  const fixArrayKeys = () =>{
+  const fixArrayKeys = () => {
     for (var i = 0; i < data.length; i++) {
       data[i].key = i + 1;
       //Do something
-  }
-  }
+    }
+  };
 
   const renderDrag = () => <TaskRow moving={true} name={draggedName} />;
 
@@ -336,7 +329,7 @@ let recs: Task[] = [
       <FlatList
         scrollEnabled={isWeb() || !dragging}
         onScroll={(e) => {
-            setScrollOffset(e.nativeEvent.contentOffset.y);
+          setScrollOffset(e.nativeEvent.contentOffset.y);
         }}
         onLayout={(e) => {
           setHeight(e.nativeEvent.layout.height);
@@ -355,7 +348,7 @@ let recs: Task[] = [
               opacity: dragIndex === item.key ? 0 : 1,
             }}
           >
-            {item.key != 0 && item.name != '' && (
+            {item.key != 0 && item.name != "" && (
               <TaskRow
                 onLong={setLong}
                 onClick={onTask}
