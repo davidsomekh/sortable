@@ -101,7 +101,7 @@ export function Sort() {
             Animated.event([{ y: point.current.y }], {
               useNativeDriver: false,
             })({
-              y: gestureState.moveY - 15,
+              y: gestureState.moveY - rowHeight / 3,
             });
           }
         },
@@ -198,7 +198,7 @@ export function Sort() {
     let test : Task[] = [];
 
     let cont = 1;
-    let testItems = getRandomInt(50);
+    let testItems = 40;// getRandomInt(50);
 
     while(cont <= testItems)
     {
