@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Pressable, TextInput, View, Text } from "react-native";
 import { useHover } from "react-native-web-hooks";
 import { useRef } from "react";
+import { isApple } from "../../Shared/GetPlatform";
+import { isAndroid } from "../../Shared/GetPlatform";
+import { isWeb } from "../../Shared/GetPlatform";
 
 import styles from "./Style.js";
 
@@ -23,6 +26,16 @@ export function TaskRow(props) {
     //  console.log('on relesae called');
     props.onLong(false,props.name,props.index);
   };
+
+  const getLongPressDelay = ()=>{
+    if(isAndroid())
+      return 110;
+    else if(isApple())
+      return 110;
+
+    //Web
+    return 100;
+  }
   
   return (
     <>
@@ -33,7 +46,7 @@ export function TaskRow(props) {
           onPress={onTask}
           onPressOut={onRelease}
           onLongPress={onLong}
-          delayLongPress={100}
+          delayLongPress={getLongPressDelay()}
         >
           <Text
             style={[
