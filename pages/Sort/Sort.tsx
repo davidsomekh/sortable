@@ -160,6 +160,16 @@ export function Sort() {
     }
   }, [dragend]);
 
+  const getDragAndScrollOffset = ()=>{
+    if(isAndroid())
+      return rowHeight * 0.9;
+    else if(isApple())
+      return rowHeight * 0.75;
+
+    //Web
+    return rowHeight * 0.9;
+  }
+
   const dragAndScroll = (CurrY: number, MoveDir: number) => {
 
     let bMoveDown = MoveDir == 0 || MoveDir == 1;
@@ -167,14 +177,14 @@ export function Sort() {
 
     if (bMoveDown && CurrY != 0 && CurrY + 150 > height) {
       flatlist?.current?.scrollToOffset({
-        offset: scrollOffset + rowHeight,
+        offset: scrollOffset + getDragAndScrollOffset(),
         animated: false,
       });
 
       // setScrollOffset(scrollOffset + 35);
     } else if (bMoveUp && CurrY < 100) {
       flatlist?.current?.scrollToOffset({
-        offset: scrollOffset - rowHeight,
+        offset: scrollOffset - getDragAndScrollOffset(),
         animated: false,
       });
     }
