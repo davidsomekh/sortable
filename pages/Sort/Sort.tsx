@@ -161,19 +161,20 @@ export function Sort() {
   }, [dragend]);
 
   const dragAndScroll = (CurrY: number, MoveDir: number) => {
+
     let bMoveDown = MoveDir == 0 || MoveDir == 1;
     let bMoveUp = MoveDir == 0 || MoveDir == 2;
 
     if (bMoveDown && CurrY != 0 && CurrY + 150 > height) {
       flatlist?.current?.scrollToOffset({
-        offset: scrollOffset + 35,
+        offset: scrollOffset + rowHeight,
         animated: false,
       });
 
       // setScrollOffset(scrollOffset + 35);
     } else if (bMoveUp && CurrY < 100) {
       flatlist?.current?.scrollToOffset({
-        offset: scrollOffset - 35,
+        offset: scrollOffset - rowHeight,
         animated: false,
       });
     }
