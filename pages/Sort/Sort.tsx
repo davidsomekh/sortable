@@ -69,9 +69,7 @@ export function Sort() {
           return longpress;
         },
 
-        onPanResponderGrant: (evt, gestureState) => {
-
-        },
+        onPanResponderGrant: (evt, gestureState) => {},
         onPanResponderMove: (evt, gestureState) => {
           if (longpress) {
             let iMoveDir = 0;
@@ -160,29 +158,42 @@ export function Sort() {
     }
   }, [dragend]);
 
-  const getDragAndScrollOffset = ()=>{
-    if(isAndroid())
-      return rowHeight * 0.9;
-    else if(isApple())
-      return rowHeight * 0.75;
+  const getDragAndScrollOffset = () => {
+    if (isAndroid()) return rowHeight * 0.9;
+    else if (isApple()) return rowHeight * 0.75;
 
     //Web
     return rowHeight * 0.9;
-  }
+  };
+
+  const getThresholdBottom = () => {
+    if (isAndroid()) return rowHeight * 1.3;
+    else if (isApple()) return rowHeight;
+
+    //Web
+    return rowHeight;
+  };
+
+  const getThresholdTop = () => {
+    if (isAndroid()) return rowHeight * 1.3;
+    else if (isApple()) return rowHeight * 1.3;
+
+    //Web
+    return rowHeight * 1.3;
+  };
 
   const dragAndScroll = (CurrY: number, MoveDir: number) => {
-
     let bMoveDown = MoveDir == 0 || MoveDir == 1;
     let bMoveUp = MoveDir == 0 || MoveDir == 2;
 
-    if (bMoveDown && CurrY != 0 && CurrY + 150 > height) {
+    if (bMoveDown && CurrY != 0 && CurrY + getThresholdBottom() > height) {
       flatlist?.current?.scrollToOffset({
         offset: scrollOffset + getDragAndScrollOffset(),
         animated: false,
       });
 
       // setScrollOffset(scrollOffset + 35);
-    } else if (bMoveUp && CurrY < 100) {
+    } else if (bMoveUp && CurrY < getThresholdTop()) {
       flatlist?.current?.scrollToOffset({
         offset: scrollOffset - getDragAndScrollOffset(),
         animated: false,
@@ -195,24 +206,23 @@ export function Sort() {
     key: number;
   }
 
-  const getRandomInt = (max)=> {
+  const getRandomInt = (max) => {
     return Math.floor(Math.random() * max);
-  }
+  };
 
-  const getRandomObject = () =>{
-    let ds : Task = {key: 1, name: "bobo"};
+  const getRandomObject = () => {
+    let ds: Task = { key: 1, name: "bobo" };
     return ds;
-  }
+  };
 
   const buildRanomData = () => {
-    let test : Task[] = [];
+    let test: Task[] = [];
 
     let cont = 1;
-    let testItems = 40;// getRandomInt(50);
+    let testItems = 40; // getRandomInt(50);
 
-    while(cont <= testItems)
-    {
-       let ds : Task = {key: cont, name: getRandomInt(testItems).toString()};
+    while (cont <= testItems) {
+      let ds: Task = { key: cont, name: getRandomInt(testItems).toString() };
       test.push(ds);
       cont++;
     }
