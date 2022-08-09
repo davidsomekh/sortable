@@ -1,8 +1,7 @@
 import React, { useRef ,useEffect,useState} from "react";
 
 import { Sort } from "./pages/Sort/Sort";
-
-
+import { Header } from "./Components/Header/Header";
 
 
 export default function App() {
@@ -20,7 +19,12 @@ export default function App() {
   
 
   return (
+    <>
+  
+    <Header title="inbox"/>
     <Sort/>
+    </>
+ 
   );
 }
 

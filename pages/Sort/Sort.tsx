@@ -35,6 +35,8 @@ export function Sort() {
 
   const [scrollOffset, setScrollOffset] = useState(0);
 
+  const [componentOffset,setComponentOffset] = useState(0);
+
   const [flatlistTopOffset, setflatlistTopOffset] = useState(0);
   const [rowHeight, setRowHeight] = useState(0);
 
@@ -99,7 +101,7 @@ export function Sort() {
             Animated.event([{ y: point.current.y }], {
               useNativeDriver: false,
             })({
-              y: gestureState.moveY - rowHeight / 3,
+              y: gestureState.moveY - (rowHeight / 3) - componentOffset,
             });
           }
         },
@@ -114,7 +116,7 @@ export function Sort() {
           return true;
         },
       }),
-    [longpress, scrollOffset, dragIndex, startIndex]
+    [longpress, scrollOffset, dragIndex, startIndex,componentOffset]
   );
 
   const resetDrag = () => {
@@ -131,7 +133,7 @@ export function Sort() {
   };
   const yToIndex = (y: number) => {
     const value = Math.floor(
-      (scrollOffset + y - flatlistTopOffset) / rowHeight
+      (scrollOffset + y - flatlistTopOffset - componentOffset) / rowHeight
     );
 
     if (value < 0) {
@@ -167,7 +169,7 @@ export function Sort() {
   };
 
   const getThresholdBottom = () => {
-    if (isAndroid()) return rowHeight * 1.3;
+    if (isAndroid()) return (rowHeight * 1.3);
     else if (isApple()) return rowHeight;
 
     //Web
@@ -175,11 +177,11 @@ export function Sort() {
   };
 
   const getThresholdTop = () => {
-    if (isAndroid()) return rowHeight * 1.3;
-    else if (isApple()) return rowHeight * 1.3;
+    if (isAndroid()) return (rowHeight * 1.3) + componentOffset;
+    else if (isApple()) return (rowHeight * 1.3) + componentOffset;
 
     //Web
-    return rowHeight * 1.3;
+    return (rowHeight * 1.3) + componentOffset;
   };
 
   const dragAndScroll = (CurrY: number, MoveDir: number) => {
@@ -259,7 +261,9 @@ export function Sort() {
   const renderDrag = () => <TaskRow moving={true} name={draggedName} />;
 
   return (
-    <SafeAreaView {...panResponder.panHandlers} style={styles.container}>
+    <SafeAreaView {...panResponder.panHandlers} style={styles.container} onLayout={(e) => {
+      setComponentOffset(e.nativeEvent.layout.y);
+    }}>
       {showTask && <TaskPage close={hideTaskPage} name={activeTask} />}
       <Animated.View
         style={{
